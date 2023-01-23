@@ -59,11 +59,14 @@
             })
         }
         zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
-            $("#file_list").append($("<li>", $('<a>', {
-                href : zipEntry.name,
-                // todo: use link action to add content preview
-                onclick: preview(zipEntry.name)
-            })));
+            $("#file_list").append($("<li>", {
+                text: $('<a>', {
+                    href : "#",
+                    text: zipEntry.name,
+                    // todo: use link action to add content preview
+                    onclick: "preview("+zipEntry.name+")"
+                })
+            }));
         });
     }, function error(e) {
         $("#jszip_utils").append($("<div>", {
