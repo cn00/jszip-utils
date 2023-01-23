@@ -2,6 +2,12 @@
 var params = URLSearchParams && new URLSearchParams(document.location.search.substring(1));
 var zipuri = params && params.get("url");
 console.log("zipuri:", zipuri);
+
+$("#file_name").replaceWith($("<p>", {
+    id:"file_name",
+    "class": "alert alert-success",
+    text: zipuri
+}));
 // 1) get a promise of the content
 var promise = new JSZip.external.Promise(function (resolve, reject) {
     JSZipUtils.getBinaryContent(zipuri, function(err, data) {

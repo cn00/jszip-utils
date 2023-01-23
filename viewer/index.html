@@ -20,12 +20,59 @@
     <script type="text/javascript" src="../dist/jszip-utils.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <script type="text/javascript" src="./viewer.js"></script>
+    <style>
+        #file_preview {
+            /* height: 500px; */
+            position: absolute;
+            width: 75%;
+            top: 0px;
+            height: 100%;
+            /*
+             left: 40px; */
+            /* 
+            border-radius: 5px 0px 0px 5px;
+            border-radius: 5px;
+            background: #fff;
+            overflow: hidden;
+            -webkit-transition: -webkit-transform .4s, width .2s;
+            -moz-transition: -webkit-transform .4s, width .2s;
+            -ms-transition: -webkit-transform .4s, width .2s;
+            -moz-box-shadow: inset 0 0 50px rgba(0,0,0,.1);
+            -webkit-box-shadow: inset 0 0 50px rgb(0 0 0 / 10%);
+            -ms-box-shadow: inset 0 0 50px rgba(0,0,0,.1);
+            box-shadow: inset 0 0 50px rgb(0 0 0 / 10%);
+            */
+
+            word-break : break-all/*|normal  break-all | keep-all*/
+        }
+        #file_list {
+            background: #c0bebe;
+            position: fixed;
+            /* 
+            left: -260px; 
+            */
+            height: 100%;
+            top: 0px;
+            min-width: 300px;
+            right: 0;
+            width: 20%;
+            -webkit-transition: -webkit-transform .5s;
+            -moz-transition: -moz-transform .5s;
+            -ms-transition: -moz-transform .5s;
+            overflow: hidden;
+        }
+        .hljs-string {
+            word-break : break-all/*|normal  break-all | keep-all*/
+        }
+    </style>
   </head>
   <body>
+        <p id="file_name"></p>
     <div id="jszip_utils">
-        <ul id="file_list"></ul>
-        <p>Preview:</p>
-        <div id="file_preview"></div>
+        <div id="file_preview">
+            <p>Preview:</p>
+        </div>
+        <div><ul id="file_list"></ul></div>
     </div>
   </body>
 </html>
