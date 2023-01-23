@@ -10,7 +10,7 @@ var promise = new JSZip.external.Promise(function (resolve, reject) {
             console.error("getBinaryContent err:", err);
             reject(err);
         } else {
-            var endn = zipuri.indexOf('[?#]')
+            var endn = zipuri.indexOf('?')
             $("#file_name").replaceWith($("<div>", {id:"file_name"}).append($('<p>', {
                 text: zipuri.substring(zipuri.lastIndexOf('/') + 1, endn > 0 ? endn : zipuri.length)
             })));
