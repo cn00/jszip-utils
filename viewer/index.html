@@ -1,6 +1,9 @@
+
+
 <html>
   <head>
     <title>jszip-viewer</title>
+
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="description" content="jszip-viewer"/>
@@ -10,7 +13,6 @@
     <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://stuk.github.io/jszip/dist/jszip.js"></script>
     <script type="text/javascript" src="../dist/jszip-utils.js"></script>
-
     
     <script type="text/javascript">
     "use strict";
@@ -24,26 +26,33 @@
                 console.error("getBinaryContent err:", err);
                 reject(err);
             } else {
+                console.error("resolve began");
                 resolve(data);
+                console.error("resolve end");
             }
         });
     });
 
-    promise.then(JSZip.loadAsync)                         // 2) chain with the zip promise
-        .then(function(zip) {
-            return zip.file("Hello.txt").async("string"); // 3) chain with the text content promise
-        })
-        .then(function success(text) {                    // 4) display the result
-            $("#jszip_utils").append($("<p>", {
-                "class": "alert alert-success",
-                text: "loaded, content = " + text
-            }));
-        }, function error(e) {
-            $("#jszip_utils").append($("<p>", {
-                "class": "alert alert-danger",
-                text: e
-            }));
-        });
+    promise
+    .then(JSZip.loadAsync)                            // 2) chain with the zip promise
+    .then(function(zip) {
+        var zf = zip.file("Hello.txt");
+        console.log('zip.file("Hello.txt")', zf);
+        return zf.async("string"); // 3) chain with the text content promise
+    })
+    .then(function success(text) {                    // 4) display the result
+        console.log("success(text)", text);
+        $("#jszip_utils").append($("<p>", {
+            "class": "alert alert-success",
+            text: "loaded, content = " + text
+        }));
+    }, function error(e) {
+        console.error("error(e)", e);
+        $("#jszip_utils").append($("<p>", {
+            "class": "alert alert-danger",
+            text: e
+        }));
+    });
     </script>
   </head>
   <body>
