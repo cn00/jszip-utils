@@ -10,91 +10,21 @@
     <meta name="viewport" content="width=device-width, user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+
     <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://stuk.github.io/jszip/dist/jszip.js"></script>
     <script type="text/javascript" src="../dist/jszip-utils.js"></script>
-    
-    <script type="text/javascript">
-    "use strict";
-    var params = URLSearchParams && new URLSearchParams(document.location.search.substring(1));
-    var zipuri = params && params.get("url");
-    console.log("zipuri:", zipuri);
-    // 1) get a promise of the content
-    var promise = new JSZip.external.Promise(function (resolve, reject) {
-        JSZipUtils.getBinaryContent(zipuri, function(err, data) {
-            if (err) {
-                console.error("getBinaryContent err:", err);
-                reject(err);
-            } else {
-                console.log("resolve began");
-                resolve(data);
-                console.log("resolve end");
-            }
-        });
-    });
-
-    var $fileContent = $("<ul>");
-    promise
-    .then(f=>{
-        console.log("loadAsync", f);
-        return JSZip.loadAsync(f)
-    })                            // 2) chain with the zip promise
-    .then(function success(zip) {
-        console.log('zip")', zip);
-        function preview(fp){
-            var zf = zip.file(fp);
-            console.log('zip.file', fp, zf);
-            if(zf === null)return;
-            zf.async("string")                    // 3) chain with the text content promise
-            .then(function success(text){
-                $("#preview").replaceAll($("<p>", {
-                    "class": "alert alert-success",
-                    text: text
-                }));
-            }, function err(e){
-                $("#preview").replaceAll($("<p>", {
-                    "class": "alert alert-success",
-                    text: e.message
-                }));
-            })
-        }
-        zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
-            $("#file_list").append($("<li>", {
-                text: $('<a>', {
-                    href : "#",
-                    text: zipEntry.name,
-                    // todo: use link action to add content preview
-                    onclick: "preview("+zipEntry.name+")"
-                })
-            }));
-        });
-    }, function error(e) {
-        $("#jszip_utils").append($("<div>", {
-            "class" : "alert alert-danger",
-            text : "Error reading " + e.message
-        }));
-    })
-    //.then(function success(text) {                    // 4) display the result
-    //    console.log("success(text)", text);
-    //    $("#jszip_utils").append($("<p>", {
-    //        "class": "alert alert-success",
-    //        text: "loaded, content = " + text
-    //    }));
-    //}, function error(e) {
-    //    console.error("error(e)", e);
-    //    $("#jszip_utils").append($("<p>", {
-    //        "class": "alert alert-danger",
-    //        text: e
-    //    }));
-    //});
-    </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script type="text/javascript" src="./viewer.js"></script>
   </head>
   <body>
     <div id="jszip_utils">
         <ul id="file_list"></ul>
-    </div>
-    <div id="preview">
-
+        <div id="file_preview"></div>
     </div>
   </body>
 </html>
