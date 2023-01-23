@@ -33,6 +33,7 @@
         });
     });
 
+    var $fileContent = $("<ul>");
     promise
     .then(f=>{
         console.log("loadAsync", f);
@@ -41,9 +42,9 @@
     .then(function success(zip) {
         console.log('zip")', zip);
         zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
-            $fileContent.append($("<li>", {
+            $("#file_list").append($("<li>", {
                 text : zipEntry.name,
-                // <!-- link -->
+                // todo: use link action to add content preview
             }));
         });
         //var zf = zip.file("Hello.txt");
@@ -71,6 +72,8 @@
     </script>
   </head>
   <body>
-    <div id="jszip_utils"></div>
+    <div id="jszip_utils">
+        <ul id="file_list"></ul>
+    </div>
   </body>
 </html>
