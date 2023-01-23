@@ -45,7 +45,7 @@
 
             word-break : break-all/*|normal  break-all | keep-all*/
         }
-        #file_list {
+        #file_list_div {
             background: #c0bebe;
             position: fixed;
             /* 
@@ -53,7 +53,7 @@
             */
             height: 100%;
             top: 0px;
-            min-width: 300px;
+            min-width: 200px;
             right: 0;
             width: 20%;
             -webkit-transition: -webkit-transform .5s;
@@ -67,12 +67,14 @@
     </style>
   </head>
   <body>
-        <p id="file_name"></p>
     <div id="jszip_utils">
         <div id="file_preview">
             <p>Preview:</p>
         </div>
-        <div><ul id="file_list"></ul></div>
+        <div id="file_list_div">
+            <div id="file_name"></div>
+            <ul id="file_list"></ul>
+        </div>
     </div>
   </body>
 </html>

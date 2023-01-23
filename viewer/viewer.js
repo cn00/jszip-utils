@@ -3,11 +3,6 @@ var params = URLSearchParams && new URLSearchParams(document.location.search.sub
 var zipuri = params && params.get("url");
 console.log("zipuri:", zipuri);
 
-$("#file_name").replaceWith($("<p>", {
-    id:"file_name",
-    "class": "alert alert-success",
-    text: zipuri
-}));
 // 1) get a promise of the content
 var promise = new JSZip.external.Promise(function (resolve, reject) {
     JSZipUtils.getBinaryContent(zipuri, function(err, data) {
@@ -15,6 +10,10 @@ var promise = new JSZip.external.Promise(function (resolve, reject) {
             console.error("getBinaryContent err:", err);
             reject(err);
         } else {
+            $("#file_name").replaceWith($("<div>", {id:"file_name"}).append($('<p>', {
+                text: zipuri.substring(zipuri.lastIndexOf('/') + 1)
+            })));
+
             resolve(data);
         }
     });
@@ -30,9 +29,6 @@ function preview(fp){
         $("#file_preview").replaceWith(
             $("<pre>", {id:"file_preview", class:"code"}).append(
                 hljs.highlightAuto(text).value//.replaceAll('\n', '<br/>')//.replaceAll(' ', '&nbsp;')
-                // hljs.highlightBlock(text).value
-            //"class": "hljs",
-            //text: text //.replaceAll('\n', '<br/>')
         ));
     }, function err(e){
         $("#file_preview").replaceWith($("<div>", {id:"file_preview"}).append($('<p>', {
