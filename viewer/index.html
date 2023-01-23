@@ -26,19 +26,34 @@
                 console.error("getBinaryContent err:", err);
                 reject(err);
             } else {
-                console.error("resolve began");
+                console.log("resolve began");
                 resolve(data);
-                console.error("resolve end");
+                console.log("resolve end");
             }
         });
     });
 
     promise
-    .then(JSZip.loadAsync)                            // 2) chain with the zip promise
-    .then(function(zip) {
-        var zf = zip.file("Hello.txt");
-        console.log('zip.file("Hello.txt")', zf);
-        return zf.async("string"); // 3) chain with the text content promise
+    .then(f=>{
+        console.log("loadAsync", f);
+        JSZip.loadAsync(f)
+    })                            // 2) chain with the zip promise
+    .then(function success(zip) {
+        console.log('zip")', zip);
+        zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
+            $fileContent.append($("<li>", {
+                text : zipEntry.name,
+                // <!-- link -->
+            }));
+        });
+        //var zf = zip.file("Hello.txt");
+        //console.log('zip.file("Hello.txt")', zf);
+        //return zf.async("string");                     // 3) chain with the text content promise
+    }, function error(e) {
+        $("#jszip_utils").append($("<div>", {
+            "class" : "alert alert-danger",
+            text : "Error reading " + e.message
+        }));
     })
     .then(function success(text) {                    // 4) display the result
         console.log("success(text)", text);
