@@ -9,9 +9,7 @@ var promise = new JSZip.external.Promise(function (resolve, reject) {
             console.error("getBinaryContent err:", err);
             reject(err);
         } else {
-            console.log("resolve began");
             resolve(data);
-            console.log("resolve end");
         }
     });
 });
@@ -19,11 +17,9 @@ var promise = new JSZip.external.Promise(function (resolve, reject) {
 var zipf;
 function preview(fp){
     var zf = zipf.file(fp);
-    console.log('zip.file', fp, zf);
     if(zf === null)return;
     zf.async("string")                    // 3) chain with the text content promise
     .then(function success(text){
-        //console.log('zip.file.success', fp, text);
         // TODO: use text preview plugin
         $("#file_preview").replaceWith(
             $("<pre>", {id:"file_preview", class:"code"}).append(
@@ -40,12 +36,10 @@ function preview(fp){
     })
 }    promise
 .then(f=>{
-    console.log("loadAsync", f);
     return JSZip.loadAsync(f)
 })                            // 2) chain with the zip promise
 .then(function success(zip) {
     zipf = zip;
-    console.log('zip")', zip);
 
     zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
         $("#file_list").append($("<li>")
