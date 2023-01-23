@@ -58,11 +58,11 @@
             })
         }
         zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
-            $("#file_list").append($("<li>", $('<a>'({
+            $("#file_list").append($("<li>", $('<a>', {
                 href : zipEntry.name,
                 onclick: preview(zipEntry.name)
                 // todo: use link action to add content preview
-            }))));
+            })));
         });
     }, function error(e) {
         $("#jszip_utils").append($("<div>", {
