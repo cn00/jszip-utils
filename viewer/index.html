@@ -41,39 +41,56 @@
     })                            // 2) chain with the zip promise
     .then(function success(zip) {
         console.log('zip")', zip);
+        function preview(fp){
+            var zf = zip.file(fp);
+            console.log('zip.file', fp, zf);
+            zf.async("string")                    // 3) chain with the text content promise
+            .then(function success(text){
+                $("#preview").replaceAll($("<p>", {
+                    "class": "alert alert-success",
+                    text: text
+                }));
+            }, function err(e){
+                $("#preview").replaceAll($("<p>", {
+                    "class": "alert alert-success",
+                    text: e.message
+                }));
+            })
+        }
         zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
-            $("#file_list").append($("<li>", {
-                text : zipEntry.name,
+            $("#file_list").append($("<li>", $('<a>'({
+                href : zipEntry.name,
+                onclick: preview(zipEntry.name)
                 // todo: use link action to add content preview
-            }));
+            }))));
         });
-        //var zf = zip.file("Hello.txt");
-        //console.log('zip.file("Hello.txt")', zf);
-        //return zf.async("string");                     // 3) chain with the text content promise
     }, function error(e) {
         $("#jszip_utils").append($("<div>", {
             "class" : "alert alert-danger",
             text : "Error reading " + e.message
         }));
     })
-    .then(function success(text) {                    // 4) display the result
-        console.log("success(text)", text);
-        $("#jszip_utils").append($("<p>", {
-            "class": "alert alert-success",
-            text: "loaded, content = " + text
-        }));
-    }, function error(e) {
-        console.error("error(e)", e);
-        $("#jszip_utils").append($("<p>", {
-            "class": "alert alert-danger",
-            text: e
-        }));
-    });
+    //.then(function success(text) {                    // 4) display the result
+    //    console.log("success(text)", text);
+    //    $("#jszip_utils").append($("<p>", {
+    //        "class": "alert alert-success",
+    //        text: "loaded, content = " + text
+    //    }));
+    //}, function error(e) {
+    //    console.error("error(e)", e);
+    //    $("#jszip_utils").append($("<p>", {
+    //        "class": "alert alert-danger",
+    //        text: e
+    //    }));
+    //});
     </script>
   </head>
   <body>
     <div id="jszip_utils">
         <ul id="file_list"></ul>
+    </div>
+    <div id="preview">
+
     </div>
   </body>
 </html>
