@@ -44,6 +44,7 @@
         function preview(fp){
             var zf = zip.file(fp);
             console.log('zip.file', fp, zf);
+            if(zf === null)return;
             zf.async("string")                    // 3) chain with the text content promise
             .then(function success(text){
                 $("#preview").replaceAll($("<p>", {
@@ -60,8 +61,8 @@
         zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
             $("#file_list").append($("<li>", $('<a>', {
                 href : zipEntry.name,
-                onclick: preview(zipEntry.name)
                 // todo: use link action to add content preview
+                onclick: preview(zipEntry.name)
             })));
         });
     }, function error(e) {
