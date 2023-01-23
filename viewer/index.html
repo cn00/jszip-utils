@@ -36,7 +36,7 @@
     promise
     .then(f=>{
         console.log("loadAsync", f);
-        JSZip.loadAsync(f)
+        return JSZip.loadAsync(f)
     })                            // 2) chain with the zip promise
     .then(function success(zip) {
         console.log('zip")', zip);
