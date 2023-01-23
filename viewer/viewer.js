@@ -44,11 +44,12 @@ function preview(fp){
     zipf = zip;
 
     zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
+        if(relativePath[relativePath.length-1]==='/')return;
         $("#file_list").append($("<li>")
         .append($("<a>", {
             //href : "javascript:;",// + zipEntry.name,
             href : "#" + zipEntry.name,
-            text: zipEntry.name,
+            text: relativePath,//zipEntry.name,
             // todo: use link action to add content preview
             onclick: "preview('"+zipEntry.name+"')"
         })));
