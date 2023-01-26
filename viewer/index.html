@@ -20,7 +20,9 @@ style="--viewer-container-height:628px;
 
     <!-- <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script> -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
-
+    <!-- <script src="//code.jquery.com/jquery-1.9.1.js"></script> -->
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
@@ -52,24 +54,18 @@ style="--viewer-container-height:628px;
         .hljs-string {
             word-break : break-all/*|normal  break-all | keep-all*/
         }
-
-        progress {
-            width: 100%;
-            height: 5px;
-            border-radius: 0;
-        }
     </style>
   </head>
   <body>
-    <div id="jszip_utils">
+    <!-- <div id="jszip_utils"> -->
         <div id="file_preview">
             <p>select file to preview...</p>
-            <progress id="progress-bar" value="0" min="0" max="100"></progress>
+            <div id="progress-bar" value="33.66" min="0" max="100"></progress>
         </div>
-        <div id="file_list_div>
+        <div id="file_list_div">
             <div id="file_name"></div>
             <div id="file_list"></div>
         </div>
-    </div>
+    <!-- </div> -->
   </body>
 </html>
