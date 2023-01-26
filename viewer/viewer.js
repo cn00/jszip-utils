@@ -57,7 +57,7 @@ promise
             'text': relativePath.substring(relativePath.lastIndexOf('/')),
         }
     });
-    //  console.log("jsdata", jsdata)
+     console.log("jsdata", jsdata)
      $('#file_list')
      // 监听事件
     .on('changed.jstree', function (e, data) {
