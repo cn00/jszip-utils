@@ -47,19 +47,39 @@ promise
     zipf = zip;
 
     var jsdata = []
-    zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
+    zip.forEach(function (relativePath, zipEntry) {
+        // console.log(relativePath)
         if(relativePath[relativePath.length-1]==='/'){
             relativePath = relativePath.substring(0, relativePath.lastIndexOf('/'))
         }
+        var parent = relativePath.substring(0, relativePath.lastIndexOf('/'))||'#'
+        if(parent !== '#'){
+            var pexist = false
+            for(var i = 0; i < jsdata.length;i++){
+                var pi = jsdata[i]
+                if(pi.id === parent){
+                    pexist = true;
+                    break;
+                }
+            }
+            if(!pexist){
+                console.log('top single node', parent)
+                jsdata[jsdata.length] = {
+                    'id': parent,
+                    'parent': '#',
+                    'text': parent.substring(parent.lastIndexOf('/')),
+                }
+            }
+        }
         jsdata[jsdata.length] = {
-            'id': relativePath,//.substring(relativePath.lastIndexOf('/')),
-            'parent': relativePath.substring(0, relativePath.lastIndexOf('/')) || '#', //file_name
-            'text': relativePath.substring(relativePath.lastIndexOf('/')),
+            'id': relativePath,
+            'parent': parent || '#',
+            'text': relativePath.substring(relativePath.lastIndexOf('/')+1),
         }
     });
-     console.log("jsdata", jsdata)
-     $('#file_list')
-     // 监听事件
+    // console.log("jsdata", jsdata)
+    $('#file_list')
+    // 监听事件
     .on('changed.jstree', function (e, data) {
         // console.log('Selected: ', data);
         preview(data.node.id)
