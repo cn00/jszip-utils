@@ -16,6 +16,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
 
     <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script> -->
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
     <script type="text/javascript" src="https://stuk.github.io/jszip/dist/jszip.js"></script>
     <script type="text/javascript" src="../dist/jszip-utils.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
@@ -30,35 +36,24 @@
             /*
              left: 40px; */
             /* 
-            border-radius: 5px 0px 0px 5px;
-            border-radius: 5px;
-            background: #fff;
-            overflow: hidden;
-            -webkit-transition: -webkit-transform .4s, width .2s;
-            -moz-transition: -webkit-transform .4s, width .2s;
-            -ms-transition: -webkit-transform .4s, width .2s;
-            -moz-box-shadow: inset 0 0 50px rgba(0,0,0,.1);
-            -webkit-box-shadow: inset 0 0 50px rgb(0 0 0 / 10%);
-            -ms-box-shadow: inset 0 0 50px rgba(0,0,0,.1);
-            box-shadow: inset 0 0 50px rgb(0 0 0 / 10%);
             */
             overflow:scroll;
             word-break : break-all/*|normal  break-all | keep-all*/
         }
-        #file_list_div {
+        #file_list {
             background: #c0bebe;
             position: fixed;
             /* 
             left: -260px; 
+            -webkit-transition: -webkit-transform .5s;
+            -moz-transition: -moz-transform .5s;
+            -ms-transition: -moz-transform .5s;
             */
             height: 100%;
             top: 0px;
             min-width: 200px;
             right: 0;
             width: 20%;
-            -webkit-transition: -webkit-transform .5s;
-            -moz-transition: -moz-transform .5s;
-            -ms-transition: -moz-transform .5s;
             overflow: scroll;
         }
         .hljs-string {
@@ -69,11 +64,11 @@
   <body>
     <div id="jszip_utils">
         <div id="file_preview">
-            <p>Preview:</p>
+            <p>select file to preview...</p>
         </div>
-        <div id="file_list_div">
+        <div id="file_list_div>
             <div id="file_name"></div>
-            <ul id="file_list"></ul>
+            <div id="file_list"></div>
         </div>
     </div>
   </body>
