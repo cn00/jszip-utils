@@ -48,7 +48,7 @@ promise
 
     var jsdata = []
     zip.forEach(function (relativePath, zipEntry) {
-        // console.log(relativePath)
+        console.log(relativePath)
         if(relativePath[relativePath.length-1]==='/'){
             relativePath = relativePath.substring(0, relativePath.lastIndexOf('/'))
         }
@@ -67,7 +67,7 @@ promise
                 jsdata[jsdata.length] = {
                     'id': parent,
                     'parent': '#',
-                    'text': parent.substring(parent.lastIndexOf('/')),
+                    'text': parent//.substring(parent.lastIndexOf('/')),
                 }
             }
         }
