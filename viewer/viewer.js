@@ -5,46 +5,36 @@ console.log("zipuri:", zipuri);
 
 var endn = zipuri.indexOf('?')
 var file_name = zipuri.substring(zipuri.lastIndexOf('/') + 1, endn > 0 ? endn : zipuri.length)
-// 1) get a promise of the content
-// var promise = new JSZip.external.Promise(function (resolve, reject) {
-//     JSZipUtils.getBinaryContent(zipuri, function(err, data) {
-//         if (err) {
-//             console.error("getBinaryContent err:", err);
-//             reject(err);
-//         } else {
-//             $("#file_name").replaceWith($("<div>", {id:"file_name"}).append($('<p>', {
-//                 text: file_name
-//             })));
 
-//             resolve(data);
-//         }
-//     });
-// });
-
-
-
-var jsdata = []
 function onLoadSuccess(zip) {
     console.log("onLoadSuccess", zip)
-    var zipf = zip;
+    var zipf
+    zipf = zip;
     function preview(fp) {
         var zf = zipf.file(fp);
         if (zf === null) return;
         zf.async("string")                    // 3) chain with the text content promise
-            .then(function success(text) {
-                // TODO: use text preview plugin
-                $("#file_preview").replaceWith($("<div>", { id: "file_preview"}).append(
-                    $("<pre>", {class: "code" }).append(
-                        hljs.highlightAuto(text).value//.replaceAll('\n', '<br/>')//.replaceAll(' ', '&nbsp;')
-                    )));
-            }, function err(e) {
+        .then(
+            function success(text) {
+            // TODO: use text preview plugin
+            $("#file_preview_content").replaceWith(
+                $("<pre>", { id: "file_preview_content", class: "code"}).append(
+                    hljs.highlightAuto(text).value//.replaceAll('\n', '<br/>')//.replaceAll(' ', '&nbsp;')
+                ));
+            }, 
+            function err(e) {
                 $("#file_preview").replaceWith($("<div>", { id: "file_preview" }).append($('<p>', {
                     "class": "alert alert-success",
-                    text: e.message
+                    text: e
                 })));
-            })
+            }
+        )
     }
 
+    var jsdata = []
+    function addJsNode(){
+
+    }
     zip.forEach(function (relativePath, zipEntry) {
         // console.log(relativePath)
         if (relativePath[relativePath.length - 1] === '/') {
@@ -69,13 +59,17 @@ function onLoadSuccess(zip) {
                 }
             }
         }
+        console.log('node', relativePath)
         jsdata[jsdata.length] = {
             'id': relativePath,
             'parent': parent || '#',
             'text': relativePath.substring(relativePath.lastIndexOf('/') + 1),
         }
     });
-    // console.log("jsdata", jsdata)
+    // console.log("jsdata", jsdata.filter((i,idx,arr)=>{
+    //     console.log('filter', idx, i)
+    //     return arr.indexOf(i, 0) === idx
+    // }))
     $('#file_list')
         // 监听事件
         .on('changed.jstree', function (e, data) {
@@ -96,7 +90,7 @@ function onLoadError(e) {
         text: "Error reading " + e.message
     }));
 }
-// const progressbar = document.getElementById('progress-bar');
+
 // window.addEventListener('fetch-progress', (e) => {
 //     // setProgressbarValue(e.detail);
 //     let process = e.detail.received*100/e.detail.length
@@ -106,16 +100,12 @@ function onLoadError(e) {
 //     })
 //     // progressbar.value=e.received*100/e.length
 // });
-  
-// window.addEventListener('fetch-finished', (e) => {
-//     setProgressbarValue(e.detail);
-// });
+
 // http://louiszhai.github.io/2016/11/02/fetch/#progress
 async function progress(response) {
     var reader = response.body.getReader()
-    var headers = response.headers
     var cl = response.headers.get("content-length")
-    console.log(`response`,cl);
+    console.log("response content-length",cl);
     var received = 0
     // var data = new Uint8Array(1024*1024*512)
     // https://dev.to/tqbit/how-to-monitor-the-progress-of-a-javascript-fetch-request-and-cancel-it-on-demand-107f
@@ -126,7 +116,7 @@ async function progress(response) {
                 // console.log(`res_part`, part);
                 //   data.append(...part.value)
                 if (part.done) {
-                    console.log("response", received)
+                    console.log("response last part", received)
                     resolve();
                     return
                 }
@@ -158,23 +148,11 @@ async function progress(response) {
         body.set(chunk, position);
         position += chunk.length;
     }
-    console.log("body", body)
+    // console.log("body", body)
     return Promise.resolve(body);
 }
 fetch(zipuri, { mode: 'no-cors' })
     .then(response => progress(response))
-    // .then(response=>{
-    //     console.log("response", response)
-    //     return Promise.resolve(response)})
-    .then(JSZip.loadAsync, null) //
+    .then(JSZip.loadAsync)
     .then(onLoadSuccess, onLoadError)
-    // .then(() => console.log("consumed the entire body without keeping the whole thing in memory!"))
     .catch(e => console.error("something went wrong: " + e));
-
-// promise
-// .then(f=>{
-//     return JSZip.loadAsync(f)
-// })                            // 2) chain with the zip promise
-// .then(onLoadSuccess
-//     , onLoadError
-// )
